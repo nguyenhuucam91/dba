@@ -18,6 +18,7 @@ services:
       - mongo
       - redis
       - elasticsearch
+      - node
     networks: 
       - dba
   php:
@@ -34,6 +35,7 @@ services:
       - mysql
       - elasticsearch
       - mongo
+      - node
     networks: 
       - dba
   mysql:
@@ -47,6 +49,15 @@ services:
       - MYSQL_ROOT_PASSWORD=123456
     networks: 
       - dba
+  node:
+    container_name: laravel-dba-docker-node
+    image: node:latest
+    restart: always
+    volumes:
+      - ./laravel-dba:/var/www
+    networks: 
+      - dba
+    command: "tail -f /dev/null"
   redis:
     container_name: laravel-dba-docker-redis
     restart: always
