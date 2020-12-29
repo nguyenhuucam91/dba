@@ -15,6 +15,7 @@ services:
     depends_on:
       - php
       - mysql
+      - mongodb
       - redis
       - elasticsearch
     networks: 
@@ -32,6 +33,7 @@ services:
     depends_on:
       - mysql
       - elasticsearch
+      - mongodb
     networks: 
       - dba
   mysql:
