@@ -12,7 +12,7 @@ class UserProfileController extends Controller
     public function index()
     {
         $user = null;
-        //if key exists, then get data from REdis key
+        //if key exists, then get data from Redis key
         if (Redis::exists('user_profile:'.Auth::user()->id)) {
             $user = Redis::hgetall('user_profile:'.Auth::user()->id);
         }
@@ -24,10 +24,6 @@ class UserProfileController extends Controller
             if ($user === null) {
                 $user = new UserProfile;
             }
-            //if user exist, we set cache for user data for next acccess
-            else {
-                $user = Redis::hmset('user_profile:'. Auth::user()->id, $user->toArray());
-            }
             $user = $user->toArray();
         }
         //push all data to view
@@ -38,11 +34,20 @@ class UserProfileController extends Controller
     {
         $userId = Auth::user()->id;
         //merge form data which user inputs with authenticated user_id to update
-        $dataToUpdate = array_merge($request->all(), ['user_id' => $userId]);
-        //perform update and create in the database
-        $userProfile = UserProfile::updateOrCreate(['user_id' => $userId], $dataToUpdate);
-        //delete existing cache if has
-        Redis::exists('user_profile:'.Auth::user()->id) ?? Redis::hdel('user_profile:'.Auth::user()->id);
-        return \redirect()->action('UserProfileController@index');
+        $dataToUpdate = array_merge($request->except(['_token']), ['user_id' => $userId]);
+        //find whether user exist inside database or not
+        $userProfile = UserProfile::where(['user_id' => $userId])->first();
+        // if userProfile exist, then we update db
+        if ($userProfile) {
+            $userProfile->update($dataToUpdate);
+        }
+        // if not exist, then we create new profile for that user
+        else {
+            UserProfile::create($dataToUpdate);
+        }
+        //copy this data to cache for later retrieval
+        Redis::hmset('user_profile:'. Auth::user()->id, $userProfile->toArray());
+
+        return \redirect()->action([UserProfileController::class, 'index']);
     }
 }

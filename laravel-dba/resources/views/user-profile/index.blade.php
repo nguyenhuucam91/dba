@@ -8,7 +8,7 @@
                 <div class="card-header">User profile</div>
 
                 <div class="card-body">
-                    <form method="POST" action="/user/profile">
+                    <form method="POST" action="/user-profile">
                         @csrf
 
                         <div class="form-group row">
@@ -41,13 +41,13 @@
 
                             <div class="col-md-6">
                                 @if (old('dob'))
-                                    <input id="dob" type="text" class="form-control @error('dob') is-invalid @enderror" name="dob" required
+                                    <input id="dob" type="date" class="form-control @error('dob') is-invalid @enderror" name="dob" required
                                     value="{{ old('dob') }}" />
                                 @elseif(array_key_exists('dob', $user))
-                                    <input id="dob" type="text" class="form-control @error('dob') is-invalid @enderror" name="dob" required
+                                    <input id="dob" type="date" class="form-control @error('dob') is-invalid @enderror" name="dob" required
                                     value="{{ $user['dob'] }}" />
                                 @else
-                                    <input id="dob" type="text" class="form-control @error('dob') is-invalid @enderror" name="dob" required
+                                    <input id="dob" type="date" class="form-control @error('dob') is-invalid @enderror" name="dob" required
                                     value="" />
                                 @endif
 

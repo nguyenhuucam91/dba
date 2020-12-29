@@ -14,7 +14,7 @@ class CreateUserProfilesTable extends Migration
     public function up()
     {
         Schema::create('user_profiles', function (Blueprint $table) {
-            $table->unsignedInteger('id')->primary();
+            $table->unsignedInteger('id')->autoIncrement();
             $table->string('full_name', 50);
             $table->date('dob');
             $table->string('address', 50);
@@ -31,6 +31,6 @@ class CreateUserProfilesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_profile');
+        Schema::dropIfExists('user_profiles');
     }
 }
