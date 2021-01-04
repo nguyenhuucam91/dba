@@ -71,6 +71,11 @@ services:
   mongo:
     container_name: laravel-dba-docker-mongodb
     restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    volumes:
+      - './mongodb:/data/db'
     image: mongo:latest
     ports: 
       - "27017:27017"
@@ -78,6 +83,7 @@ services:
       - elasticsearch
     networks: 
       - dba
+    
   # elasticsearch
   elasticsearch:
     container_name: laravel-dba-docker-elasticsearch
