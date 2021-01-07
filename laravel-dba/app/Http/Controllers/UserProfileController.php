@@ -14,12 +14,12 @@ class UserProfileController extends Controller
     {
         $user = null;
         //if key exists, then get data from Redis key
-        if (Redis::exists('user_profile:'.Auth::user()->_id)) {
-            $user = Redis::hgetall('user_profile:'.Auth::user()->_id);
+        if (Redis::exists('user_profile:'.Auth::user()->id)) {
+            $user = Redis::hgetall('user_profile:'.Auth::user()->id);
         }
         // if key is not exist, we try to find user_information associated with authenticated user id
         else {
-            $user = UserProfile::where(['user_id' => Auth::user()->_id])->first();
+            $user = UserProfile::where(['user_id' => Auth::user()->id])->first();
             //if there is no user profile, we create a new object and cast to array,
             //since redis result returns array
             if ($user === null) {
@@ -33,7 +33,7 @@ class UserProfileController extends Controller
 
     public function store(Request $request)
     {
-        $userId = Auth::user()->_id;
+        $userId = Auth::user()->id;
         //merge form data which user inputs with authenticated user_id to update
         $dataToUpdate = array_merge($request->except(['_token']), ['user_id' => $userId]);
         //find whether user exist inside database or not
@@ -47,7 +47,7 @@ class UserProfileController extends Controller
             UserProfile::create($dataToUpdate);
         }
         //copy this data to cache for later retrieval
-        Redis::hmset('user_profile:'. Auth::user()->_id, $userProfile->toArray());
+        Redis::hmset('user_profile:'. Auth::user()->id, $userProfile->toArray());
 
         return \redirect()->action([UserProfileController::class, 'index']);
     }

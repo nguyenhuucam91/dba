@@ -27,3 +27,9 @@ Route::resource('students', StudentController::class);
 Route::get('/redistest', function() {
     Redis::set('a', 'b');
 });
+
+//only authenticated user can go to these routes
+Route::group(['middleware' => 'auth'], function() {
+    Route::get('/user-profile', [App\Http\Controllers\UserProfileController::class, 'index']);
+    Route::post('/user-profile', [App\Http\Controllers\UserProfileController::class, 'store']);
+});
