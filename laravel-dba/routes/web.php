@@ -33,3 +33,7 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('/user-profile', [App\Http\Controllers\UserProfileController::class, 'index']);
     Route::post('/user-profile', [App\Http\Controllers\UserProfileController::class, 'store']);
 });
+
+Route::group(['middleware' => 'auth'], function() {
+    Route::resource('student-mongo', App\Http\Controllers\StudentMongoController::class);
+});
