@@ -2,9 +2,8 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
-
-class UserProfile extends Model
+// use Illuminate\Database\Eloquent\Model;
+class UserProfile extends BaseMongoModel
 {
     protected $table = 'user_profiles';
 
