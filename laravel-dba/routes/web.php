@@ -30,10 +30,8 @@ Route::get('/redistest', function() {
 
 //only authenticated user can go to these routes
 Route::group(['middleware' => 'auth'], function() {
-    Route::get('/user-profile', [App\Http\Controllers\UserProfileController::class, 'index']);
-    Route::post('/user-profile', [App\Http\Controllers\UserProfileController::class, 'store']);
+    Route::get('/user-profile', [UserProfileController::class, 'index']);
+    Route::post('/user-profile', [UserProfileController::class, 'store']);
 });
 
-Route::group(['middleware' => 'auth'], function() {
-    Route::resource('student-mongo', App\Http\Controllers\StudentMongoController::class);
-});
+Route::resource('student-mongo', StudentMongoController::class);

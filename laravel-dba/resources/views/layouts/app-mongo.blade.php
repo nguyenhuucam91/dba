@@ -14,7 +14,10 @@
         <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
         <ul class="navbar-nav px-3">
             <li class="nav-item text-nowrap">
-                <a class="nav-link" href="#">Sign out</a>
+                <a class="nav-link" onclick="document.getElementById('logout-form').submit()">Sign out</a>
+                <form id="logout-form" method="POST" action="/logout">
+                    @csrf
+                </form>
             </li>
         </ul>
     </nav>
