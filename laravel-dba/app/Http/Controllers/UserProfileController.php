@@ -39,12 +39,12 @@ class UserProfileController extends Controller
         //find whether user exist inside database or not
         $userProfile = UserProfile::where(['user_id' => $userId])->first();
         // if userProfile exist, then we update db
-        if ($userProfile) {
+        if ($userProfile !== null) {
             $userProfile->update($dataToUpdate);
         }
         // if not exist, then we create new profile for that user
         else {
-            UserProfile::create($dataToUpdate);
+            $userProfile = UserProfile::create($dataToUpdate);
         }
         //copy this data to cache for later retrieval
         Redis::hmset('user_profile:'. Auth::user()->id, $userProfile->toArray());

@@ -13,7 +13,4 @@ class UserProfile extends Model
 
     //no created-at and updated_at field
     public $timestamps = false;
-
-    //no primary key for this table
-    public $primaryKey = null;
 }
