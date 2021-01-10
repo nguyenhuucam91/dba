@@ -52,7 +52,8 @@ class StudentMongoController extends Controller
      */
     public function store(Request $request)
     {
-        StudentMongo::create($request->input());
+        $studentMongo = StudentMongo::create($request->input());
+        $studentMongo->addToIndex();
 
         return redirect()->action([StudentMongoController::class, 'index']);
     }
@@ -78,7 +79,10 @@ class StudentMongoController extends Controller
      */
     public function update(Request $request, $_id)
     {
-        StudentMongo::find($_id)->update($request->input());
+        $studentMongo = StudentMongo::find($_id);
+
+        $studentMongo->update($request->input());
+        $studentMongo->updateIndex();
 
         return redirect()->action([StudentMongoController::class, 'index']);
     }
@@ -91,7 +95,9 @@ class StudentMongoController extends Controller
      */
     public function destroy($_id)
     {
-        StudentMongo::find($_id)->delete();
+        $studentMongo = StudentMongo::find($_id);
+        $studentMongo->delete();
+        $studentMongo->deleteIndex();
         return redirect()->action([StudentMongoController::class, 'index']);
     }
 }
