@@ -3,6 +3,8 @@
 @section('content')
     <h1>Students</h1>
     <p><a href="/students/create" class="btn btn-primary">Create new student</a></p>
+
+    {{-- Table data --}}
     <table class="table table-striped">
         <thead>
             <tr>

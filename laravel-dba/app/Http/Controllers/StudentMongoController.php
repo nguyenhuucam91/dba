@@ -8,13 +8,28 @@ use Illuminate\Http\Request;
 class StudentMongoController extends Controller
 {
     /**
-     * Undocumented function
+     * Show all record in ES
      *
      * @return void
      */
-    public function index()
+    public function index(Request $request)
     {
-        $students = StudentMongo::all();
+        $students = null;
+        // nếu name xuất hiện trên querystring url
+        //: ở đây: http://laravel-dba.test/student-mongo?name=sample
+        //tiến hành truy vấn
+        if ($request->query('name')) {
+            $students = StudentMongo::searchByQuery([
+                'multi_match' => [
+                    'query' => $request->query('name'),
+                    'fields' => ["first_name", "last_name"]
+                ]
+            ]);
+        }
+        // nếu không có query string url thì lấy hết ra
+        else {
+            $students = StudentMongo::all();
+        }
 
         return view('student-mongo.index', compact('students'));
     }

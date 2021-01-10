@@ -22,7 +22,6 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::resource('students', StudentController::class);
 
 Route::get('/redistest', function() {
     Redis::set('a', 'b');
@@ -30,8 +29,17 @@ Route::get('/redistest', function() {
 
 //only authenticated user can go to these routes
 Route::group(['middleware' => 'auth'], function() {
-    Route::get('/user-profile', [UserProfileController::class, 'index']);
-    Route::post('/user-profile', [UserProfileController::class, 'store']);
+    // Mysql
+    Route::resource('students', StudentController::class);
+
+
+    Route::get('/user-profile', [App\Http\Controllers\UserProfileController::class, 'index']);
+    Route::post('/user-profile', [App\Http\Controllers\UserProfileController::class, 'store']);
+
+    //Mongo
+    Route::resource('student-mongo', StudentMongoController::class);
+
+    Route::get('/sync-index', [App\Http\Controllers\SettingController::class, 'showSyncIndexView']);
+    Route::post('/sync-index', [App\Http\Controllers\SettingController::class, 'syncIndex']);
 });
 
-Route::resource('student-mongo', StudentMongoController::class);
