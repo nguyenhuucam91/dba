@@ -9,13 +9,12 @@ use Illuminate\Support\Facades\Redis;
 
 class UserProfileController extends Controller
 {
-
     public function index()
     {
         $user = null;
         //if key exists, then get data from Redis key
-        if (Redis::exists('user_profile:'.Auth::user()->id)) {
-            $user = Redis::hgetall('user_profile:'.Auth::user()->id);
+        if (Redis::exists('user_profile:' . Auth::user()->id)) {
+            $user = Redis::hgetall('user_profile:' . Auth::user()->id);
         }
         // if key is not exist, we try to find user_information associated with authenticated user id
         else {
@@ -24,8 +23,13 @@ class UserProfileController extends Controller
             //since redis result returns array
             if ($user === null) {
                 $user = new UserProfile;
+            } else {
+                //fire cache to prevent access to database
+                Redis::hmset(
+                    'user_profile:' . Auth::user()->id,
+                    $user->toArray()
+                );
             }
-            $user = $user->toArray();
         }
         //push all data to view
         return view('user-profile.index', compact('user'));
