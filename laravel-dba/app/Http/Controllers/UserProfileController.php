@@ -24,8 +24,10 @@ class UserProfileController extends Controller
             //since redis result returns array
             if ($user === null) {
                 $user = new UserProfile;
+            } else {
+                //fire cache
+                Redis::hmset('user_profile:' . Auth::user()->id, $user->toArray());
             }
-            $user = $user->toArray();
         }
         //push all data to view
         return view('user-profile.index', compact('user'));
