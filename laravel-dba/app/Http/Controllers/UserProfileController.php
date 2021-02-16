@@ -25,7 +25,7 @@ class UserProfileController extends Controller
             if ($user === null) {
                 $user = new UserProfile;
             } else {
-                //fire cache
+                //fire cache to prevent access to database
                 Redis::hmset('user_profile:' . Auth::user()->id, $user->toArray());
             }
         }
