@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Route;
 
@@ -25,6 +27,10 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/redistest', function() {
     Redis::set('a', 'b');
+});
+
+Route::get('/prefix', function () {
+    return Cache::put('a', 'b');
 });
 
 //only authenticated user can go to these routes
