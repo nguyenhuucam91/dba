@@ -25,7 +25,7 @@ class UserProfileController extends Controller
             if ($userProfile === null) {
                 $userProfile = new UserProfile;
             } else {
-                //fire cache to prevent access to database
+                //fire cache to prevent access to database again
                 Redis::set($this->userProfileCacheKey . Auth::user()->id, serialize($userProfile));
             }
         }

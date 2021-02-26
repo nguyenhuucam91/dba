@@ -36,3 +36,6 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('/user-profile', [App\Http\Controllers\UserProfileController::class, 'index']);
     Route::post('/user-profile', [App\Http\Controllers\UserProfileController::class, 'store']);
 });
+
+Route::get('/products', 'ProductController@index');
+Route::get('/products/{id}', 'ProductController@show');
