@@ -38,16 +38,11 @@ class UserProfileController extends Controller
         $userId = Auth::user()->id;
         //merge form data which user inputs with authenticated user_id to update
         $dataToUpdate = array_merge($request->except(['_token']), ['user_id' => $userId]);
-        //find whether user exist inside database or not
-        $userProfile = UserProfile::where(['user_id' => $userId])->first();
-        // if userProfile exist, then we update db
-        if ($userProfile !== null) {
-            $userProfile->update($dataToUpdate);
-        }
-        // if not exist, then we create new profile for that user
-        else {
-            $userProfile = UserProfile::create($dataToUpdate);
-        }
+
+        $userProfile = UserProfile::updateOrCreate([
+            'user_id' => $userId
+        ], $dataToUpdate);
+
         //copy this data to cache for later retrieval
         Redis::set($this->userProfileCacheKey . $userId, serialize($userProfile));
 
