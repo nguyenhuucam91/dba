@@ -9,28 +9,28 @@ use Illuminate\Support\Facades\Redis;
 
 class UserProfileController extends Controller
 {
+    private $userProfileCacheKey = "user_profile:";
 
     public function index()
     {
-        $user = null;
+        $userProfile = null;
         //if key exists, then get data from Redis key
-        if (Redis::exists('user_profile:'.Auth::user()->id)) {
-            $user = Redis::hgetall('user_profile:'.Auth::user()->id);
+        if (Redis::exists($this->userProfileCacheKey . Auth::user()->id)) {
+            $userProfile = unserialize(Redis::get($this->userProfileCacheKey . Auth::user()->id));
         }
         // if key is not exist, we try to find user_information associated with authenticated user id
         else {
-            $user = UserProfile::where(['user_id' => Auth::user()->id])->first();
+            $userProfile = UserProfile::where(['user_id' => Auth::user()->id])->first();
             //if there is no user profile, we create a new object and cast to array,
-            //since redis result returns array
-            if ($user === null) {
-                $user = new UserProfile;
+            if ($userProfile === null) {
+                $userProfile = new UserProfile;
             } else {
                 //fire cache to prevent access to database
-                Redis::hmset('user_profile:' . Auth::user()->id, $user->toArray());
+                Redis::set($this->userProfileCacheKey . Auth::user()->id, serialize($userProfile));
             }
         }
         //push all data to view
-        return view('user-profile.index', compact('user'));
+        return view('user-profile.index', ['user' => $userProfile]);
     }
 
     public function store(Request $request)
@@ -49,7 +49,7 @@ class UserProfileController extends Controller
             $userProfile = UserProfile::create($dataToUpdate);
         }
         //copy this data to cache for later retrieval
-        Redis::hmset('user_profile:'. Auth::user()->id, $userProfile->toArray());
+        Redis::set($this->userProfileCacheKey . $userId, serialize($userProfile));
 
         return \redirect()->action([UserProfileController::class, 'index']);
     }
