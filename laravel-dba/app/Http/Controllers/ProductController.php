@@ -30,5 +30,6 @@ class ProductController extends Controller
         Redis::set("products:{$id}", serialize(Product::find($id)));
         $authUserId = Auth::user()->id;
         Redis::zadd("users:{$authUserId}:recent_products", Carbon::now()->timestamp, $id);
+        return redirect()->action([ProductController::class, 'index']);
     }
 }
