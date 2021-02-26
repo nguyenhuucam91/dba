@@ -14,8 +14,11 @@ class ProductController extends Controller
     {
         $products = Product::all();
         $authUserId = Auth::user()->id;
-        $recentProductsId = Redis::zrevrange("users:{$authUserId}:recent_products", 0, -1);
-        $recentProducts = Product::whereIn('id', $recentProductsId)->orderByRaw("FIELD(id," . implode(',', $recentProductsId) . ")")->get();
+        $recentProductsIds = Redis::zrevrange("users:{$authUserId}:recent_products", 0, -1);
+        $recentProducts = [];
+        foreach ($recentProductsIds as $recentProductsId) {
+            $recentProducts[] = unserialize(Redis::get("products:{$recentProductsId}"));
+        }
         return view('products.index', [
             'products' => $products,
             'recentProducts' => $recentProducts
