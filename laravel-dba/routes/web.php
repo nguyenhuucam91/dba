@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Route;
 
@@ -26,6 +27,8 @@ Route::resource('students', StudentController::class);
 
 Route::get('/redistest', function() {
     Redis::set('a', 'b');
+
+    Cache::put('a', 'b');
 });
 
 //only authenticated user can go to these routes
