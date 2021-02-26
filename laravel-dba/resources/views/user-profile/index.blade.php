@@ -17,16 +17,10 @@
                             <div class="col-md-6">
 
                                 {{-- The same as 2 other fields --}}
-                                @if (old('full_name'))
-                                    <input id="full_name" type="text" class="form-control @error('full_name') is-invalid @enderror" name="full_name" required
-                                    value="{{ old('full_name') }}" />
-                                @elseif(array_key_exists('full_name', $user))
-                                    <input id="full_name" type="text" class="form-control @error('full_name') is-invalid @enderror" name="full_name" required
-                                    value="{{ $user['full_name'] }}" />
-                                @else
-                                    <input id="full_name" type="text" class="form-control @error('full_name') is-invalid @enderror" name="full_name" required
-                                    value="" />
-                                @endif
+
+                                <input id="full_name" type="text" class="form-control @error('full_name') is-invalid @enderror" name="full_name" required
+                                value="{{ old('full_name', $user->full_name) }}" />
+
 
                                 @error('full_name')
                                     <span class="invalid-feedback" role="alert">
@@ -40,16 +34,10 @@
                             <label for="dob" class="col-md-4 col-form-label text-md-right">Date of birth</label>
 
                             <div class="col-md-6">
-                                @if (old('dob'))
-                                    <input id="dob" type="date" class="form-control @error('dob') is-invalid @enderror" name="dob" required
-                                    value="{{ old('dob') }}" />
-                                @elseif(array_key_exists('dob', $user))
-                                    <input id="dob" type="date" class="form-control @error('dob') is-invalid @enderror" name="dob" required
-                                    value="{{ $user['dob'] }}" />
-                                @else
-                                    <input id="dob" type="date" class="form-control @error('dob') is-invalid @enderror" name="dob" required
-                                    value="" />
-                                @endif
+
+                                <input id="dob" type="date" class="form-control @error('dob') is-invalid @enderror" name="dob" required
+                                value="{{ old('dob', $user->dob) }}" />
+
 
                                 @error('dob')
                                     <span class="invalid-feedback" role="alert">
@@ -63,16 +51,8 @@
                             <label for="address" class="col-md-4 col-form-label text-md-right">Address</label>
 
                             <div class="col-md-6">
-                                @if (old('address'))
-                                    <input id="address" type="text" class="form-control @error('address') is-invalid @enderror" name="address" required autocomplete="current-password"
-                                    value="{{ old('address') }}" />
-                                @elseif(array_key_exists('address', $user))
-                                    <input id="address" type="text" class="form-control @error('address') is-invalid @enderror" name="address" required autocomplete="current-password"
-                                    value="{{ $user['address'] }}" />
-                                @else
-                                    <input id="address" type="text" class="form-control @error('address') is-invalid @enderror" name="address" required autocomplete="current-password"
-                                    value="" />
-                                @endif
+                                <input id="address" type="text" class="form-control @error('address') is-invalid @enderror" name="address" required autocomplete="current-password"
+                                value="{{ old('address', $user->address) }}" />
 
                                 @error('address')
                                     <span class="invalid-feedback" role="alert">
