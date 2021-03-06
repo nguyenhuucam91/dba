@@ -37,13 +37,13 @@ class UserProfileController extends Controller
     {
         $userId = Auth::user()->id;
         //merge form data which user inputs with authenticated user_id to update
-        $dataToUpdate = array_merge($request->except(['_token']), ['user_id' => $userId]);
+        $dataToUpdate = array_merge($request->input(), ['user_id' => $userId]);
 
         $userProfile = UserProfile::updateOrCreate([
             'user_id' => $userId
         ], $dataToUpdate);
 
-        //copy this data to cache for later retrieval
+        //If key exists, then delete that key, let index page handle caching
         if (Redis::exists($this->userProfileCacheKey . $userId)) {
             Redis::del($this->userProfileCacheKey . $userId);
         }
