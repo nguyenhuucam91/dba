@@ -50,8 +50,10 @@ class UserProfileController extends Controller
         else {
             $userProfile = UserProfile::create($dataToUpdate);
         }
-        //copy this data to cache for later retrieval
-        Redis::hmset('user_profile:'. Auth::user()->id, $userProfile->toArray());
+        //If key exists, then delete that key, let index page handle caching
+        if (Redis::exists($this->userProfileCacheKey . $userId)) {
+            Redis::del($this->userProfileCacheKey . $userId);
+        }
 
         return \redirect()->action([UserProfileController::class, 'index']);
     }
