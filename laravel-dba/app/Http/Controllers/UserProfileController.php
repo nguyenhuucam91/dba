@@ -44,7 +44,9 @@ class UserProfileController extends Controller
         ], $dataToUpdate);
 
         //copy this data to cache for later retrieval
-        Redis::delete($this->userProfileCacheKey . $userId);
+        if (Redis::exists($this->userProfileCacheKey . $userId)) {
+            Redis::del($this->userProfileCacheKey . $userId);
+        }
 
         return \redirect()->action([UserProfileController::class, 'index']);
     }
