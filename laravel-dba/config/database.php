@@ -95,7 +95,7 @@ return [
             'driver' => 'mongodb',
             'host' => env('DB_HOST', 'mongo'),
             'port' => env('DB_PORT', 27017),
-            'database' => env('DB_DATABASE', 'laravel-mongodb'),
+            'database' => env('DB_DATABASE', 'studentmongo'),
             'username' => env('DB_USERNAME', 'root'),
             'password' => env('DB_PASSWORD', 'example'),
             'options' => [
