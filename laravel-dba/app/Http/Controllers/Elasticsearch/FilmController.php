@@ -22,7 +22,7 @@ class FilmController extends Controller
                         'query' => [
                             'multi_match' => [
                                 'query' => $search,
-                                "fields" => ["title", "description"]
+                                "fields" => ["title^2", "description"]
                             ]
                         ]
                     ]
