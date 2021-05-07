@@ -31,7 +31,7 @@ class FilmController extends Controller
         }
         //If doesn't have search param in querystring, then get all records
         else {
-            $films = Film::paginate(10);
+            $films = Film::all();
         }
 
         return view('elasticsearch.film.index', compact('films'));
