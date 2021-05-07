@@ -35,6 +35,6 @@ return array(
     | Elasticquent models.
     */
 
-    'default_index' => 'laravelmongo',
+    'default_index' => 'sakila',
 
 );

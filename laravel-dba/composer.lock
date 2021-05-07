@@ -468,12 +468,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/elasticquent/Elasticquent.git",
-                "reference": "ee06ec76d5d72d2536e04b942c40e7457af86660"
+                "reference": "a1a43d6e93103a0735f97eeeac0d0ff07e31e994"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/elasticquent/Elasticquent/zipball/ee06ec76d5d72d2536e04b942c40e7457af86660",
-                "reference": "ee06ec76d5d72d2536e04b942c40e7457af86660",
+                "url": "https://api.github.com/repos/elasticquent/Elasticquent/zipball/a1a43d6e93103a0735f97eeeac0d0ff07e31e994",
+                "reference": "a1a43d6e93103a0735f97eeeac0d0ff07e31e994",
                 "shasum": ""
             },
             "require": {
@@ -521,7 +521,7 @@
                 "issues": "https://github.com/elasticquent/Elasticquent/issues",
                 "source": "https://github.com/elasticquent/Elasticquent/tree/master"
             },
-            "time": "2020-04-20T03:39:16+00:00"
+            "time": "2021-04-08T03:45:43+00:00"
         },
         {
             "name": "elasticsearch/elasticsearch",

@@ -38,14 +38,22 @@ Route::group(['middleware' => 'auth'], function() {
     // Mysql
     Route::resource('students', StudentController::class);
 
-
+    //View user profile for caching
     Route::get('/user-profile', [App\Http\Controllers\UserProfileController::class, 'index']);
     Route::post('/user-profile', [App\Http\Controllers\UserProfileController::class, 'store']);
 
-    //Mongo
+    //For mongodb in tut9
     Route::resource('student-mongo', StudentMongoController::class);
 
-    Route::get('/sync-index', [App\Http\Controllers\SettingController::class, 'showSyncIndexView']);
-    Route::post('/sync-index', [App\Http\Controllers\SettingController::class, 'syncIndex']);
 });
 
+
+//For elasticsearch in tut12
+Route::group(['prefix' => 'sakila'], function () {
+    Route::get('/', [App\Http\Controllers\Sakila\FilmController::class, 'index']);
+
+    Route::group(['prefix' => 'settings'], function () {
+        Route::get('/', [App\Http\Controllers\Sakila\SettingsController::class, 'index']);
+        Route::post('/', [App\Http\Controllers\Sakila\SettingsController::class, 'sync']);
+    });
+});
