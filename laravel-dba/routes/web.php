@@ -49,11 +49,13 @@ Route::group(['middleware' => 'auth'], function() {
 
 
 //For elasticsearch in tut12
-Route::group(['prefix' => 'sakila'], function () {
-    Route::get('/', [App\Http\Controllers\Sakila\FilmController::class, 'index']);
+Route::namespace('Elasticsearch')->group(function () {
+    Route::group(['prefix' => 'elasticsearch'], function () {
+        Route::get('/films', 'FilmController@index');
 
-    Route::group(['prefix' => 'settings'], function () {
-        Route::get('/', [App\Http\Controllers\Sakila\SettingsController::class, 'index']);
-        Route::post('/', [App\Http\Controllers\Sakila\SettingsController::class, 'sync']);
+        Route::group(['prefix' => 'settings'], function () {
+            Route::get('/', 'SettingsController@index');
+            Route::post('/', 'SettingsController@sync');
+        });
     });
 });

@@ -8,7 +8,7 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="{{ action([App\Http\Controllers\Sakila\SettingsController::class, 'sync']) }}">
+                <a class="nav-link" href="{{ action([App\Http\Controllers\Elasticsearch\SettingsController::class, 'sync']) }}">
                     Settings
                 </a>
             </li>
